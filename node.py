@@ -15,7 +15,7 @@ from aiohttp import ClientResponse
 import constant as const
 import json
 from pathlib import Path
-
+import time
 
 
 class Node:
@@ -66,13 +66,14 @@ class Node:
             new_params = {
                       const.MSG: ", ".join(new_msg)
                       }
+            print("Ended commit_ack:", time.time())
             #url_draw = "http://" + const.host_diagram + ':' + const.port_diagram + '/change_text/'
             #requests.post(url=url_draw, headers=new_params)
             return
 
     def commit_ack(self, request):
-        print("Commit Ack")
-        if self.view_num=="1":
+        if self.view_num == "1":
+            print("Started commit_ack", time.time())
             msg = [const.open_brac, request[const.VIEW], request[const.MSG_SEQ],
                    request[const.TYPE], request[const.MSG],
                    const.close_brac]
@@ -99,6 +100,8 @@ class Node:
         return web.Response(text="My message")
 
     def create_commit_msg(self, request):
+        if self.view_num == "1":
+            print("Commit Phase Started:", time.time())
         msg = [const.open_brac, request[const.VIEW], request[const.MSG_SEQ],
                request[const.TYPE],
                request[const.MSG], const.close_brac]
@@ -112,13 +115,13 @@ class Node:
         #requests.post(url=url_draw, headers=params)
         return params
 
-
     async def prepare(self, request):
-
+        start_time = time.time()
         if self.view_num == "1":
+            print("Prepare Phase started:", start_time)
             msg = [const.open_brac, request.headers[const.VIEW], request.headers[const.MSG_SEQ],
                    request.headers[const.TYPE], const.close_brac]
-            print("Commit", request.headers[const.commit])
+            # print("Commit", request.headers[const.commit])
             params = {const.VIEW: self.view_num,
                       const.MSG_SEQ: str(int(request.headers[const.MSG_SEQ]) + 1),
                       const.TYPE: const.PRE_PREPARE,
@@ -126,9 +129,7 @@ class Node:
                       const.prep: str(int(request.headers[const.prep]) + 1),
                       const.commit: str(int(request.headers[const.commit]))
                       }
-
         else:
-
 
             msg = [const.open_brac, request.headers[const.VIEW], request.headers[const.MSG_SEQ],
                    request.headers[const.TYPE], request.headers[const.MSG], const.close_brac]
@@ -140,18 +141,22 @@ class Node:
                 const.commit: str(int(request.headers[const.commit]))
                   }
 
-        #url_diagram = "http://" + const.host_diagram + ':' + const.port_diagram + '/change_text/'
-        #result = requests.post(url=url_diagram, headers=params)
+        # url_diagram = "http://" + const.host_diagram + ':' + const.port_diagram + '/change_text/'
+        # result = requests.post(url=url_diagram, headers=params)
 
         # const.prep = const.prep + 1
-        print("Prep msg",params[const.prep])
+        # print("Prep msg", params[const.prep])
         if self.to_port and self.to_host and int(params[const.prep]) < 2 * const.faulty:
-            print("Node: "+self.view_num+": ", params)
+            # print("Node: "+self.view_num+": ", params)
             url = "http://" + self.to_host + ':' + self.to_port + '/prep/'
             response = requests.get(url=url, headers=params)
 
+            if self.view_num == "1":
+                print("Prepare Phase Ended:", time.time())
+
             response_content = self.create_commit_msg(json.loads(response.text))
             if self.view_num == "1":
+                print("Commit Phase ended at: " + time.time())
                 response_content = self.commit_ack(response_content)
                 print("Node: " + self.view_num + ": ", response_content)
                 return web.Response(text="My message")
@@ -161,6 +166,7 @@ class Node:
                 print("Node: "+self.view_num+": ", response_content)
                 return web.Response(text=response_content)
         else:
+
             response_content = ""
             # url_diagram = "http://" + const.host_diagram + ':' + const.port_diagram + '/change_text/'
             # result = requests.get(url=url_diagram, headers=params)
@@ -169,6 +175,7 @@ class Node:
                 response_content = self.create_commit_msg(params)
                 response_content = json.dumps(response_content)
                 print("Node  " + self.view_num + ": ", response_content)
+
             return web.Response(text=response_content)
 
 

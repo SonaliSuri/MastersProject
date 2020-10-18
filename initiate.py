@@ -41,3 +41,8 @@ app = web.Application()
 app.router.add_route('GET', '/node1/', hello)
 web.run_app(app, host=host, port=port, access_log=None)
 """
+#  ssh -i /Users/sonalisuri/Desktop/spft-instance.pem ubuntu@ec2-34-202-165-68.compute-1.amazonaws.com
+#  ssh -i /Users/sonalisuri/Desktop/spft-instance.pem ubuntu@ec2-52-90-30-47.compute-1.amazonaws.com
+#  ssh -i /Users/sonalisuri/Desktop/spft-instance.pem ubuntu@ec2-54-86-71-78.compute-1.amazonaws.com
+#  ssh -i /Users/sonalisuri/Desktop/spft-instance.pem ubuntu@ec2-3-89-140-149.compute-1.amazonaws.com
+#  ssh -i /Users/sonalisuri/Desktop/spft-instance.pem ubuntu@ec2-3-80-117-95.compute-1.amazonaws.com
