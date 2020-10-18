@@ -156,7 +156,7 @@ class Node:
 
             response_content = self.create_commit_msg(json.loads(response.text))
             if self.view_num == "1":
-                print("Commit Phase ended at: " + time.time())
+                print("Commit Phase ended at: ", time.time())
                 response_content = self.commit_ack(response_content)
                 print("Node: " + self.view_num + ": ", response_content)
                 return web.Response(text="My message")
