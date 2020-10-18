@@ -22,7 +22,6 @@ async def initiate_pbft(url):
     print(response._content)
 
 
-
 app = web.Application()
 loop = asyncio.get_event_loop()
 handler = app.make_handler()

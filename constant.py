@@ -11,31 +11,31 @@ REPLY = "Reply"
 # ====================
 #  node host and port
 # ====================
-host = 'localhost'
+host = 'ec2-3-80-117-95.compute-1.amazonaws.com'
 port = '8262'
 
 # ====================
 #  node host and port
 # ====================
-host_1 = 'localhost'
+host_1 = 'ec2-34-202-165-68.compute-1.amazonaws.com'
 port_1 = '8258'
 
 # ====================
 #  node host and port
 # ====================
-host_2 = 'localhost'
+host_2 = 'ec2-52-90-30-47.compute-1.amazonaws.com'
 port_2 = '8257'
 
 # ====================
 #  node host and port
 # ====================
-host_3 = 'localhost'
+host_3 = 'ec2-54-86-71-78.compute-1.amazonaws.com'
 port_3 = '8256'
 
 # ====================
 #  node host and port
 # ====================
-host_4 = 'localhost'
+host_4 = 'ec2-3-89-140-149.compute-1.amazonaws.com'
 port_4 = '8255'
 
 # ====================

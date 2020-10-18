@@ -5,7 +5,6 @@ import requests
 import constant as const
 
 
-
 host = 'localhost'
 port = '8049'
 counter = 0
@@ -16,6 +15,10 @@ def get_reply(response):
     global counter
     counter += 1
     print('Number of reply messages received:', counter)
+    if counter == 3:
+        print("SPBFT Comppleted")
+        # paxos = "http://0.0.0.0:1050/propose"
+        # response = requests.get(url=paxos)
     return web.Response(text="My message")
 
 
@@ -40,5 +43,5 @@ finally:
     loop.run_until_complete(app.finish())
 loop.close()
 
-#loop = asyncio.get_event_loop()
-#loop.run_until_complete(initiate_pbft("http://"+const.host_1+':'+const.port_1+'/prep/'))
+# loop = asyncio.get_event_loop()
+# loop.run_until_complete(initiate_pbft("http://"+const.host_1+':'+const.port_1+'/prep/'))
