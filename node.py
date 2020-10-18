@@ -66,8 +66,8 @@ class Node:
             new_params = {
                       const.MSG: ", ".join(new_msg)
                       }
-            url_draw = "http://" + const.host_diagram + ':' + const.port_diagram + '/change_text/'
-            requests.post(url=url_draw, headers=new_params)
+            #url_draw = "http://" + const.host_diagram + ':' + const.port_diagram + '/change_text/'
+            #requests.post(url=url_draw, headers=new_params)
             return
 
     def commit_ack(self, request):
@@ -93,8 +93,8 @@ class Node:
                       const.MSG: ", ".join(msg)
                       }
         print("Node "+self.view_num+": ", params)
-        url_draw = "http://" + const.host_diagram + ':' + const.port_diagram + '/change_text/'
-        requests.post(url=url_draw, headers=params)
+        #url_draw = "http://" + const.host_diagram + ':' + const.port_diagram + '/change_text/'
+        #requests.post(url=url_draw, headers=params)
         self.next_commit_ack(params)
         return web.Response(text="My message")
 
@@ -108,8 +108,8 @@ class Node:
                   const.MSG: ", ".join(msg),
                   const.commit: str(int(request[const.commit])+1)
                   }
-        url_draw = "http://" + const.host_diagram + ':' + const.port_diagram + '/change_text/'
-        requests.post(url=url_draw, headers=params)
+        #url_draw = "http://" + const.host_diagram + ':' + const.port_diagram + '/change_text/'
+        #requests.post(url=url_draw, headers=params)
         return params
 
 
@@ -130,7 +130,6 @@ class Node:
         else:
 
 
-
             msg = [const.open_brac, request.headers[const.VIEW], request.headers[const.MSG_SEQ],
                    request.headers[const.TYPE], request.headers[const.MSG], const.close_brac]
             params = {const.VIEW: self.view_num,
@@ -141,8 +140,8 @@ class Node:
                 const.commit: str(int(request.headers[const.commit]))
                   }
 
-        url_diagram = "http://" + const.host_diagram + ':' + const.port_diagram + '/change_text/'
-        result = requests.post(url=url_diagram, headers=params)
+        #url_diagram = "http://" + const.host_diagram + ':' + const.port_diagram + '/change_text/'
+        #result = requests.post(url=url_diagram, headers=params)
 
         # const.prep = const.prep + 1
         print("Prep msg",params[const.prep])
@@ -187,7 +186,7 @@ class Drawings(Node):
         aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader(str(here)))
 
         app.router.add_route('GET', '/initiate/', self.initiating)
-        app.router.add_route('POST', '/change_text/', self.change_text)
+        #app.router.add_route('POST', '/change_text/', self.change_text)
 
         loop = asyncio.get_event_loop()
         handler = app.make_handler()
