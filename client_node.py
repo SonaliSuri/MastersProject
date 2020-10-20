@@ -17,7 +17,6 @@ def get_reply(response):
     counter += 1
     print('Number of reply messages received:', counter)
     if counter == 3:
-        print("total time ended", time.time())
         print("SPBFT Comppleted")
         # paxos = "http://0.0.0.0:1050/propose"
         # response = requests.get(url=paxos)

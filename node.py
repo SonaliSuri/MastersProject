@@ -69,6 +69,7 @@ class Node:
                       const.MSG: ", ".join(new_msg)
                       }
             print("Ended commit_ack:", time.time())
+            print("total time ended", time.time())
             #url_draw = "http://" + const.host_diagram + ':' + const.port_diagram + '/change_text/'
             #requests.post(url=url_draw, headers=new_params)
             return
