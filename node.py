@@ -100,7 +100,7 @@ class Node:
         return web.Response(text="My message")
 
     def create_commit_msg(self, request):
-        if self.view_num == "1":
+        if self.view_num == "4":
             print("Commit Phase Started:", time.time())
         msg = [const.open_brac, request[const.VIEW], request[const.MSG_SEQ],
                request[const.TYPE],

@@ -13,3 +13,10 @@ Prepare Phase Ended: 1603097369.3571787
 Commit Phase Started: 1603097369.3573663
 Commit Phase ended at:  1603097369.3574815
 Started commit_ack 1603097369.3575935
+
+=================================
+
+Propose Started = 1603162782.1070259
+Propose Ended = 1603162782.2507572
+Accept Started = 1603162782.2511241
+Accept Ended = 1603162782.3809478
