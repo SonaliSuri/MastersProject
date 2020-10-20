@@ -54,8 +54,10 @@ class Node:
         print(const.host_node, const.port_node)
 
     def next_commit_ack(self, params):
+        print("Reply phase started:", time.time())
         url_client = "http://" + const.host + ':' + const.port + '/get_reply/'
         requests.post(url=url_client, headers=params)
+        print("Reply phase ended:", time.time())
         if self.to_host is not None and self.to_port is not None:
             url = "http://" + self.to_host + ':' + self.to_port + '/commit_ack/'
             requests.get(url=url, headers=params)
