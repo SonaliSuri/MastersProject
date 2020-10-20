@@ -6,3 +6,10 @@ Started commit_ack 1602989785.09688
 Ended commit_ack: 1602989785.151252
 
 
+=================================
+
+Prepare Phase started: 1603097369.3363369
+Prepare Phase Ended: 1603097369.3571787
+Commit Phase Started: 1603097369.3573663
+Commit Phase ended at:  1603097369.3574815
+Started commit_ack 1603097369.3575935

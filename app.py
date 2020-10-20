@@ -5,6 +5,7 @@ from flask import Flask
 import requests
 import datetime
 import random
+import time
 
 urls = []
 total_number = 3
@@ -16,15 +17,21 @@ current_ts, current_val = None, None
 prev_ts, prev_val = None, None
 port = "1050"
 
+us_east_1 = "ec2-54-226-195-115.compute-1.amazonaws.com"
+us_east_2 = "ec2-3-138-202-205.us-east-2.compute.amazonaws.com"
+us_west_1 = "ec2-54-241-144-146.us-west-1.compute.amazonaws.com"
+
 propose_urls = list([])
-propose_urls.append("http://0.0.0.0:1050/prepare/")
-propose_urls.append("http://0.0.0.0:1051/prepare/")
-propose_urls.append("http://0.0.0.0:1052/prepare/")
+propose_urls.append("http:"+us_east_1+":1050/prepare/")
+propose_urls.append("http:"+us_east_2+":1050/prepare/")
+propose_urls.append("http:"+us_west_1+":1050/prepare/")
+
 
 accept_urls = list([])
-accept_urls.append("http://0.0.0.0:1050/accept/")
-accept_urls.append("http://0.0.0.0:1051/accept/")
-accept_urls.append("http://0.0.0.0:1052/accept/")
+accept_urls.append("http:"+us_east_1+":1050/accept/")
+accept_urls.append("http:"+us_east_2+":1050/accept/")
+accept_urls.append("http:"+us_west_1+":1050/accept/")
+
 
 app = Flask(__name__)
 
@@ -56,6 +63,7 @@ def send_accept(yr, mon, day, hr, minute, sec, micro_sec, value, num):
 
 @app.route('/propose')
 def propose():
+    print("Propose Started =", time.time())
     ts = datetime.datetime.now()
 
     global max_ts
@@ -76,6 +84,8 @@ def propose():
         for reply in executor.map(lambda p: send_prep(*p), args):
             replies.append(reply)
 
+    print("Propose Ended =", time.time())
+
     for reply in replies:
         if reply.status_code == 200:
             global promise_number
@@ -85,14 +95,14 @@ def propose():
     print("prepare promise_number =", promise_number)
 
     replies = []
-
+    print("Accept Started =", time.time())
     if promise_number >= total_number // 2:
         with ThreadPoolExecutor(max_workers=3) as executor:
             for reply in executor.map(lambda p: send_accept(*p), args):
                 replies.append(reply)
 
     print("accept =", replies)
-
+    print("Accept Ended =", time.time())
     return 'Hello World !!!'
 
 

@@ -14,7 +14,7 @@ max_ts = datetime.datetime.now()
 accepted_ts, accepted_val = None, None
 current_ts, current_val = None, None
 prev_ts, prev_val = None, None
-port = "1052"
+port = "1050"
 
 propose_urls = list()
 propose_urls.append("http://0.0.0.0:1050/prepare/")
@@ -149,5 +149,5 @@ def get_tasks():
     return jsonify({'tasks': 'tasks'})
 
 
-port = "1052"
+port = "1050"
 app.run(host='0.0.0.0', port=port)
