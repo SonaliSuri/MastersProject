@@ -3,6 +3,7 @@ from aiohttp import web
 from aiohttp import ClientSession
 import requests
 import constant as const
+import time
 
 
 host = 'localhost'
@@ -16,6 +17,7 @@ def get_reply(response):
     counter += 1
     print('Number of reply messages received:', counter)
     if counter == 3:
+        print("total time ended", time.time())
         print("SPBFT Comppleted")
         # paxos = "http://0.0.0.0:1050/propose"
         # response = requests.get(url=paxos)

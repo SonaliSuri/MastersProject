@@ -17,6 +17,7 @@ import constant as const
 async def initiate_pbft(url):
     print("Url is", url)
     params = {const.VIEW: "0", const.MSG_SEQ: "0", const.TYPE: const.REQUEST, const.prep: "-1", const.commit: "0"}
+    print("total time started", time.time())
     response = requests.get(url=url, params=params, headers=params)
     print(response.__attrs__)
     print(response._content)
