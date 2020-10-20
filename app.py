@@ -22,15 +22,15 @@ us_east_2 = "ec2-3-138-202-205.us-east-2.compute.amazonaws.com"
 us_west_1 = "ec2-54-241-144-146.us-west-1.compute.amazonaws.com"
 
 propose_urls = list([])
-propose_urls.append("http:"+us_east_1+":1050/prepare/")
-propose_urls.append("http:"+us_east_2+":1050/prepare/")
-propose_urls.append("http:"+us_west_1+":1050/prepare/")
+propose_urls.append("http://"+us_east_1+":1050/prepare/")
+propose_urls.append("http://"+us_east_2+":1050/prepare/")
+propose_urls.append("http://"+us_west_1+":1050/prepare/")
 
 
 accept_urls = list([])
-accept_urls.append("http:"+us_east_1+":1050/accept/")
-accept_urls.append("http:"+us_east_2+":1050/accept/")
-accept_urls.append("http:"+us_west_1+":1050/accept/")
+accept_urls.append("http://"+us_east_1+":1050/accept/")
+accept_urls.append("http://"+us_east_2+":1050/accept/")
+accept_urls.append("http://"+us_west_1+":1050/accept/")
 
 
 app = Flask(__name__)
