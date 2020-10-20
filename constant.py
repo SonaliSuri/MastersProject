@@ -18,7 +18,7 @@ port = '8262'
 # ====================
 #  node host and port
 # ====================
-host_1 = 'ec2-3-138-202-205.us-east-2.compute.amazonaws.com	'
+host_1 = 'ec2-3-138-202-205.us-east-2.compute.amazonaws.com'
 port_1 = '8258'
 
 # ====================
