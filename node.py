@@ -7,14 +7,14 @@ import requests
 ['ATTRS', 'POST_METHODS', '_MutableMapping__marker', '__abstractmethods__', '__bool__', '__class__', '__class_getitem__', '__contains__', '__delattr__', '__delitem__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__', '__module__', '__ne__', '__new__', '__orig_bases__', '__parameters__', '__reduce__', '__reduce_ex__', '__repr__', '__reversed__', '__setattr__', '__setitem__', '__sizeof__', '__slots__', '__str__', '__subclasshook__', '__weakref__', '_abc_impl', '_cache', '_client_max_size', '_content_dict', '_content_type', '_headers', '_http_date', '_loop', '_match_info', '_message', '_method', '_parse_content_type', '_payload', '_payload_writer', '_post', '_prepare_hook', '_protocol', '_read_bytes', '_rel_url', '_state', '_stored_content_type', '_task', '_transport_peername', '_transport_sslcontext', '_version', 'app', 'body_exists', 'can_read_body', 'charset', 'clear', 'clone', 'config_dict', 'content', 'content_length', 'content_type', 'cookies', 'forwarded', 'get', 'has_body', 'headers', 'host', 'http_range', 'if_modified_since', 'if_range', 'if_unmodified_since', 'items', 'json', 'keep_alive', 'keys', 'loop', 'match_info', 'message', 'method', 'multipart', 'path', 'path_qs', 'pop', 'popitem', 'post', 'protocol', 'query', 'query_string', 'raw_headers', 'raw_path', 'read', 'rel_url', 'release', 'remote', 'scheme', 'secure', 'setdefault', 'task', 'text', 'transport', 'update', 'url', 'values', 'version', 'writer']
 """
 
-from aiohttp import ClientResponse
-from aiohttp import web
-import constant as const
-from pathlib import Path
-import aiohttp_jinja2
 import asyncio
+from aiohttp import web
+import aiohttp_jinja2
 import jinja2
+from aiohttp import ClientResponse
+import constant as const
 import json
+from pathlib import Path
 import time
 
 
@@ -31,8 +31,8 @@ class Node:
         const.port_node = port
         app = web.Application()
 
-        app.router.add_route('POST', '/prep/', self.prepare)
-        app.router.add_route('POST', '/commit_ack/', self.commit_ack)
+        app.router.add_route('GET', '/prep/', self.prepare)
+        app.router.add_route('GET', '/commit_ack/', self.commit_ack)
 
 
 
@@ -69,7 +69,6 @@ class Node:
                       const.MSG: ", ".join(new_msg)
                       }
             print("Ended commit_ack:", time.time())
-            print("total time ended", time.time())
             #url_draw = "http://" + const.host_diagram + ':' + const.port_diagram + '/change_text/'
             #requests.post(url=url_draw, headers=new_params)
             return
@@ -87,17 +86,14 @@ class Node:
                       }
         else:
 
-            msg = [
-                    const.open_brac, request.headers[const.VIEW], request.headers[const.MSG_SEQ],
-                    request.headers[const.TYPE],
-                    request.headers[const.MSG],
-                    const.close_brac
-                 ]
+            msg = [const.open_brac, request.headers[const.VIEW], request.headers[const.MSG_SEQ],
+                   request.headers[const.TYPE],
+                   request.headers[const.MSG], const.close_brac]
 
             params = {const.VIEW: self.view_num,
                       const.MSG_SEQ: str(int(request.headers[const.MSG_SEQ]) + 1),
                       const.TYPE: const.COMMITACK,
-                      const.MSG: ", ".join(msg),
+                      const.MSG: ", ".join(msg)
                       }
         print("Node "+self.view_num+": ", params)
         #url_draw = "http://" + const.host_diagram + ':' + const.port_diagram + '/change_text/'
@@ -108,12 +104,9 @@ class Node:
     def create_commit_msg(self, request):
         if self.view_num == "3":
             print("Commit Phase Started:", time.time())
-        msg = [
-                const.open_brac, request[const.VIEW], request[const.MSG_SEQ],
-                request[const.TYPE],
-                request[const.MSG],
-                const.close_brac
-               ]
+        msg = [const.open_brac, request[const.VIEW], request[const.MSG_SEQ],
+               request[const.TYPE],
+               request[const.MSG], const.close_brac]
         params = {const.VIEW: self.view_num,
                   const.MSG_SEQ: str(int(request[const.MSG_SEQ]) + 1),
                   const.TYPE: const.COMMIT,
@@ -128,13 +121,8 @@ class Node:
         start_time = time.time()
         if self.view_num == "1":
             print("Prepare Phase started:", start_time)
-            msg = [
-                    const.open_brac, request.headers[const.VIEW], request.headers[const.MSG_SEQ],
-                    request.headers[const.TYPE], request.headers[const.DATA], const.close_brac
-                  ]
-            print(msg)
-            print(", ".join(msg))
-
+            msg = [const.open_brac, request.headers[const.VIEW], request.headers[const.MSG_SEQ],
+                   request.headers[const.TYPE], const.close_brac]
             # print("Commit", request.headers[const.commit])
             params = {const.VIEW: self.view_num,
                       const.MSG_SEQ: str(int(request.headers[const.MSG_SEQ]) + 1),
@@ -145,16 +133,14 @@ class Node:
                       }
         else:
 
-            msg = [
-                   const.open_brac, request.headers[const.VIEW], request.headers[const.MSG_SEQ],
-                   request.headers[const.TYPE], request.headers[const.MSG], const.close_brac
-                  ]
+            msg = [const.open_brac, request.headers[const.VIEW], request.headers[const.MSG_SEQ],
+                   request.headers[const.TYPE], request.headers[const.MSG], const.close_brac]
             params = {const.VIEW: self.view_num,
                   const.MSG_SEQ: str(int(request.headers[const.MSG_SEQ]) + 1),
                   const.TYPE: const.PREPARE,
                   const.MSG: ", ".join(msg),
                   const.prep: str(int(request.headers[const.prep]) + 1),
-                  const.commit: str(int(request.headers[const.commit])),
+                const.commit: str(int(request.headers[const.commit]))
                   }
 
         # url_diagram = "http://" + const.host_diagram + ':' + const.port_diagram + '/change_text/'
@@ -208,7 +194,7 @@ class Drawings(Node):
         here = Path(__file__).resolve().parent
         aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader(str(here)))
 
-        app.router.add_route('GET', '/initiate/', self.initiating)
+        app.router.add_route('POST', '/initiate/', self.initiating)
         #app.router.add_route('POST', '/change_text/', self.change_text)
 
         loop = asyncio.get_event_loop()
