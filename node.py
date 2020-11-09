@@ -195,7 +195,7 @@ class Drawings(Node):
         here = Path(__file__).resolve().parent
         aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader(str(here)))
 
-        app.router.add_route('POST', '/initiate/', self.initiating)
+        app.router.add_route('GET', '/initiate/', self.initiating)
         #app.router.add_route('POST', '/change_text/', self.change_text)
 
         loop = asyncio.get_event_loop()
