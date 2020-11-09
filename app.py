@@ -44,7 +44,7 @@ def send_prep(yr, mon, day, hr, minute, sec, micro_sec, value, num):
     global propose_urls
     sl, host = "/", propose_urls[num]
     url = host + yr + sl + mon + sl + day + sl + hr + sl + minute + sl + sec + sl + micro_sec + sl + value
-    response = requests.get(url=url)
+    response = requests.post(url=url)
     return response
 
 
@@ -56,7 +56,7 @@ def send_accept(yr, mon, day, hr, minute, sec, micro_sec, value, num):
     sl, host = "/", "http://0.0.0.0:" + str(port) + "/accept/"
     host = accept_urls[num]
     url = host + yr + sl + mon + sl + day + sl + hr + sl + minute + sl + sec + sl + micro_sec + sl + value
-    response = requests.get(url=url)
+    response = requests.post(url=url)
     print(response)
     return response
 
@@ -155,10 +155,11 @@ def accept(yr, mon, day, hr, minute, sec, micro_sec, val):
     return "False"
 
 
-@app.route('/send_prep', methods=['GET'])
+@app.route('/send_prep', methods=['POST'])
 def get_tasks():
+
     return jsonify({'tasks': 'tasks'})
 
-
+char_size = input()
 port = "1050"
 app.run(host='0.0.0.0', port=port)
