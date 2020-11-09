@@ -133,13 +133,15 @@ class Node:
                     request.headers[const.TYPE], request.headers[const.DATA], const.close_brac
                   ]
             print(msg)
+            print(", ".join(msg))
+
             # print("Commit", request.headers[const.commit])
             params = {const.VIEW: self.view_num,
                       const.MSG_SEQ: str(int(request.headers[const.MSG_SEQ]) + 1),
                       const.TYPE: const.PRE_PREPARE,
                       const.MSG: ", ".join(msg),
                       const.prep: str(int(request.headers[const.prep]) + 1),
-                      const.commit: str(int(request.headers[const.commit])),
+                      const.commit: str(int(request.headers[const.commit]))
                       }
         else:
 
