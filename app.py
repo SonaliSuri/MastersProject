@@ -1,4 +1,5 @@
 from concurrent.futures import ThreadPoolExecutor
+import constant as const
 from multiprocessing.pool import ThreadPool
 from flask import jsonify
 from flask import Flask
@@ -6,6 +7,7 @@ import requests
 import datetime
 import random
 import time
+
 
 urls = []
 total_number = 3
@@ -44,7 +46,12 @@ def send_prep(yr, mon, day, hr, minute, sec, micro_sec, value, num):
     global propose_urls
     sl, host = "/", propose_urls[num]
     url = host + yr + sl + mon + sl + day + sl + hr + sl + minute + sl + sec + sl + micro_sec + sl + value
-    response = requests.post(url=url)
+
+    global global_data
+    params = {const.DATA: global_data}
+
+    response = requests.post(url=url, params=params)
+
     return response
 
 
@@ -56,7 +63,11 @@ def send_accept(yr, mon, day, hr, minute, sec, micro_sec, value, num):
     sl, host = "/", "http://0.0.0.0:" + str(port) + "/accept/"
     host = accept_urls[num]
     url = host + yr + sl + mon + sl + day + sl + hr + sl + minute + sl + sec + sl + micro_sec + sl + value
-    response = requests.post(url=url)
+
+    global global_data
+    params = {const.DATA: global_data}
+
+    response = requests.post(url=url, params=params)
     print(response)
     return response
 
@@ -160,6 +171,8 @@ def get_tasks():
 
     return jsonify({'tasks': 'tasks'})
 
+
 char_size = input()
+global_data = const.get_string(char_size)
 port = "1050"
 app.run(host='0.0.0.0', port=port)
