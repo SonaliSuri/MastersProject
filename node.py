@@ -31,8 +31,8 @@ class Node:
         const.port_node = port
         app = web.Application()
 
-        app.router.add_route('GET', '/prep/', self.prepare)
-        app.router.add_route('GET', '/commit_ack/', self.commit_ack)
+        app.router.add_route('POST', '/prep/', self.prepare)
+        app.router.add_route('POST', '/commit_ack/', self.commit_ack)
 
 
 
@@ -60,7 +60,7 @@ class Node:
         print("Reply phase ended:", time.time())
         if self.to_host is not None and self.to_port is not None:
             url = "http://" + self.to_host + ':' + self.to_port + '/commit_ack/'
-            requests.get(url=url, headers=params)
+            requests.post(url=url, headers=params)
         else:
 
             new_msg = [const.open_brac, params[const.VIEW], params[const.MSG_SEQ],
@@ -78,7 +78,7 @@ class Node:
         if self.view_num == "1":
             print("Started commit_ack", time.time())
             msg = [const.open_brac, request[const.VIEW], request[const.MSG_SEQ],
-                   request[const.TYPE], request[const.MSG],
+                   request[const.TYPE], request[const.MSG], request.headers[const.DATA],
                    const.close_brac]
             params = {const.VIEW: "1",
                       const.MSG_SEQ: str(int(request[const.MSG_SEQ]) + 1),
@@ -87,14 +87,18 @@ class Node:
                       }
         else:
 
-            msg = [const.open_brac, request.headers[const.VIEW], request.headers[const.MSG_SEQ],
-                   request.headers[const.TYPE],
-                   request.headers[const.MSG], const.close_brac]
+            msg = [
+                    const.open_brac, request.headers[const.VIEW], request.headers[const.MSG_SEQ],
+                    request.headers[const.TYPE],
+                    request.headers[const.MSG],
+                    request.headers[const.DATA],
+                    const.close_brac
+                 ]
 
             params = {const.VIEW: self.view_num,
                       const.MSG_SEQ: str(int(request.headers[const.MSG_SEQ]) + 1),
                       const.TYPE: const.COMMITACK,
-                      const.MSG: ", ".join(msg)
+                      const.MSG: ", ".join(msg),
                       }
         print("Node "+self.view_num+": ", params)
         #url_draw = "http://" + const.host_diagram + ':' + const.port_diagram + '/change_text/'
@@ -105,9 +109,13 @@ class Node:
     def create_commit_msg(self, request):
         if self.view_num == "3":
             print("Commit Phase Started:", time.time())
-        msg = [const.open_brac, request[const.VIEW], request[const.MSG_SEQ],
-               request[const.TYPE],
-               request[const.MSG], const.close_brac]
+        msg = [
+                const.open_brac, request[const.VIEW], request[const.MSG_SEQ],
+                request[const.TYPE],
+                request[const.MSG],
+                request[const.DATA],
+                const.close_brac
+               ]
         params = {const.VIEW: self.view_num,
                   const.MSG_SEQ: str(int(request[const.MSG_SEQ]) + 1),
                   const.TYPE: const.COMMIT,
@@ -122,26 +130,31 @@ class Node:
         start_time = time.time()
         if self.view_num == "1":
             print("Prepare Phase started:", start_time)
-            msg = [const.open_brac, request.headers[const.VIEW], request.headers[const.MSG_SEQ],
-                   request.headers[const.TYPE], const.close_brac]
+            msg = [
+                    const.open_brac, request.headers[const.VIEW], request.headers[const.MSG_SEQ],
+                    request.headers[const.TYPE], request.headers[const.DATA], const.close_brac
+                  ]
             # print("Commit", request.headers[const.commit])
             params = {const.VIEW: self.view_num,
                       const.MSG_SEQ: str(int(request.headers[const.MSG_SEQ]) + 1),
                       const.TYPE: const.PRE_PREPARE,
                       const.MSG: ", ".join(msg),
                       const.prep: str(int(request.headers[const.prep]) + 1),
-                      const.commit: str(int(request.headers[const.commit]))
+                      const.commit: str(int(request.headers[const.commit])),
                       }
         else:
 
-            msg = [const.open_brac, request.headers[const.VIEW], request.headers[const.MSG_SEQ],
-                   request.headers[const.TYPE], request.headers[const.MSG], const.close_brac]
+            msg = [
+                   const.open_brac, request.headers[const.VIEW], request.headers[const.MSG_SEQ],
+                   request.headers[const.TYPE], request.headers[const.MSG],
+                   request.headers[const.DATA], const.close_brac
+                  ]
             params = {const.VIEW: self.view_num,
                   const.MSG_SEQ: str(int(request.headers[const.MSG_SEQ]) + 1),
                   const.TYPE: const.PREPARE,
                   const.MSG: ", ".join(msg),
                   const.prep: str(int(request.headers[const.prep]) + 1),
-                const.commit: str(int(request.headers[const.commit]))
+                  const.commit: str(int(request.headers[const.commit])),
                   }
 
         # url_diagram = "http://" + const.host_diagram + ':' + const.port_diagram + '/change_text/'
@@ -152,7 +165,7 @@ class Node:
         if self.to_port and self.to_host and int(params[const.prep]) < 2 * const.faulty:
             # print("Node: "+self.view_num+": ", params)
             url = "http://" + self.to_host + ':' + self.to_port + '/prep/'
-            response = requests.get(url=url, headers=params)
+            response = requests.post(url=url, headers=params)
 
             if self.view_num == "1":
                 print("Prepare Phase Ended:", time.time())

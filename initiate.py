@@ -16,16 +16,26 @@ import constant as const
 
 async def initiate_pbft(url):
     print("Url is", url)
-    params = {const.VIEW: "0", const.MSG_SEQ: "0", const.TYPE: const.REQUEST, const.prep: "-1", const.commit: "0"}
+    global char_size
+    params = {
+                const.VIEW: "0",
+                const.MSG_SEQ: "0",
+                const.TYPE: const.REQUEST,
+                const.prep: "-1",
+                const.commit: "0",
+                const.DATA: const.get_string(char_size)
+             }
     print("total time started", time.time())
-    response = requests.get(url=url, params=params, headers=params)
+    response = requests.post(url=url, params=params, headers=params)
     print(response.__attrs__)
     print(response._content)
 
+char_size = input()
 
 app = web.Application()
 loop = asyncio.get_event_loop()
 handler = app.make_handler()
+
 
 try:
     loop.run_until_complete(initiate_pbft("http://" + const.host_1 + ':' + const.port_1 + '/prep/'))
@@ -47,3 +57,5 @@ web.run_app(app, host=host, port=port, access_log=None)
 #  ssh -i /Users/sonalisuri/Desktop/spft-instance.pem ubuntu@ec2-54-86-71-78.compute-1.amazonaws.com
 #  ssh -i /Users/sonalisuri/Desktop/spft-instance.pem ubuntu@ec2-3-89-140-149.compute-1.amazonaws.com
 #  ssh -i /Users/sonalisuri/Desktop/spft-instance.pem ubuntu@ec2-3-80-117-95.compute-1.amazonaws.com
+
+

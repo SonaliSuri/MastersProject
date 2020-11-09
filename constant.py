@@ -66,7 +66,9 @@ reply = 0
 MSG_SEQ = "msg_seq"
 VIEW = "view"
 TYPE = "type"
+DATA = "data"
 MSG = "msg"
+STRING = ""
 
 # ======
 #
@@ -75,3 +77,13 @@ open_brac = "{"
 close_brac = "}"
 
 conf_nodes = [{'host': host_1, 'port': int(port_1)}]
+
+
+def get_string(char_length):
+    data_string = "a"
+    for i in range(char_length+2):
+        data_string += data_string
+    STRING = data_string
+    return data_string
+
+
