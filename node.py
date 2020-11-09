@@ -132,6 +132,7 @@ class Node:
                     const.open_brac, request.headers[const.VIEW], request.headers[const.MSG_SEQ],
                     request.headers[const.TYPE], request.headers[const.DATA], const.close_brac
                   ]
+            print(msg)
             # print("Commit", request.headers[const.commit])
             params = {const.VIEW: self.view_num,
                       const.MSG_SEQ: str(int(request.headers[const.MSG_SEQ]) + 1),
