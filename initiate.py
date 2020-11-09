@@ -60,3 +60,10 @@ web.run_app(app, host=host, port=port, access_log=None)
 
 # ssh -i /Users/sonalisuri/Desktop/spft-instance.pem ubuntu@ec2-18-205-244-82.compute-1.amazonaws.com
 
+
+# ssh -i /Users/sonalisuri/Desktop/spft-instance.pem ubuntu@ec2-54-227-2-149.compute-1.amazonaws.com
+# ssh -i /Users/sonalisuri/Desktop/spft-instance.pem ubuntu@ec2-54-226-195-115.compute-1.amazonaws.com
+# ssh -i /Users/sonalisuri/Desktop/spft-instance.pem ubuntu@ec2-18-234-141-77.compute-1.amazonaws.com
+# ssh -i /Users/sonalisuri/Desktop/spft-instance.pem ubuntu@ec2-184-72-207-159.compute-1.amazonaws.com
+# ssh -i /Users/sonalisuri/Desktop/spft-instance.pem ubuntu@ec2-18-205-244-82.compute-1.amazonaws.com
+

@@ -13,43 +13,43 @@ REPLY = "Reply"
 #  node host and port
 # ====================
 host = 'ec2-54-153-59-159.us-west-1.compute.amazonaws.com'
-port = '8262'
+port = '8362'
 
 # ====================
 #  node host and port
 # ====================
 host_1 = 'ec2-54-241-144-146.us-west-1.compute.amazonaws.com'
-port_1 = '8258'
+port_1 = '8358'
 
 # ====================
 #  node host and port
 # ====================
 host_2 = 'ec2-54-193-67-29.us-west-1.compute.amazonaws.com'
-port_2 = '8257'
+port_2 = '8357'
 
 # ====================
 #  node host and port
 # ====================
 host_3 = 'ec2-13-52-99-86.us-west-1.compute.amazonaws.com'
-port_3 = '8256'
+port_3 = '8356'
 
 # ====================
 #  node host and port
 # ====================
 host_4 = 'ec2-3-101-39-128.us-west-1.compute.amazonaws.com'
-port_4 = '8255'
+port_4 = '8355'
 
 # ====================
 #  node host and port
 # ====================
 host_diagram = 'localhost'
-port_diagram = '8273'
+port_diagram = '8373'
 
 # ====================
 #  node host and port
 # ====================
 host_node = 'localhost'
-port_node = '8254'
+port_node = '8354'
 
 
 # ====================
