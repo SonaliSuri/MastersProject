@@ -169,7 +169,7 @@ class Node:
 
             if self.view_num == "1":
                 print("Prepare Phase Ended:", time.time())
-
+            print(response.text)
             response_content = self.create_commit_msg(json.loads(response.text))
             if self.view_num == "1":
                 print("Commit Phase ended at: ", time.time())

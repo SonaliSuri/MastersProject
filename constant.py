@@ -81,8 +81,10 @@ conf_nodes = [{'host': host_1, 'port': int(port_1)}]
 
 def get_string(char_length):
     data_string = "a"
-    for i in range(char_length+2):
-        data_string += data_string
+    data_list = []
+    for i in range(int(char_length)+2):
+        data_list.append(data_string)
+    data_string = "".join(data_list)
     STRING = data_string
     return data_string
 
