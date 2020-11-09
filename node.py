@@ -31,8 +31,8 @@ class Node:
         const.port_node = port
         app = web.Application()
 
-        app.router.add_route('GET', '/prep/', self.prepare)
-        app.router.add_route('GET', '/commit_ack/', self.commit_ack)
+        app.router.add_route('POST', '/prep/', self.prepare)
+        app.router.add_route('POST', '/commit_ack/', self.commit_ack)
 
 
 
