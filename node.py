@@ -78,7 +78,7 @@ class Node:
         if self.view_num == "1":
             print("Started commit_ack", time.time())
             msg = [const.open_brac, request[const.VIEW], request[const.MSG_SEQ],
-                   request[const.TYPE], request[const.MSG], request.headers[const.DATA],
+                   request[const.TYPE], request[const.MSG],
                    const.close_brac]
             params = {const.VIEW: "1",
                       const.MSG_SEQ: str(int(request[const.MSG_SEQ]) + 1),
@@ -91,7 +91,6 @@ class Node:
                     const.open_brac, request.headers[const.VIEW], request.headers[const.MSG_SEQ],
                     request.headers[const.TYPE],
                     request.headers[const.MSG],
-                    request.headers[const.DATA],
                     const.close_brac
                  ]
 
@@ -113,7 +112,6 @@ class Node:
                 const.open_brac, request[const.VIEW], request[const.MSG_SEQ],
                 request[const.TYPE],
                 request[const.MSG],
-                request[const.DATA],
                 const.close_brac
                ]
         params = {const.VIEW: self.view_num,
@@ -146,8 +144,7 @@ class Node:
 
             msg = [
                    const.open_brac, request.headers[const.VIEW], request.headers[const.MSG_SEQ],
-                   request.headers[const.TYPE], request.headers[const.MSG],
-                   request.headers[const.DATA], const.close_brac
+                   request.headers[const.TYPE], request.headers[const.MSG], const.close_brac
                   ]
             params = {const.VIEW: self.view_num,
                   const.MSG_SEQ: str(int(request.headers[const.MSG_SEQ]) + 1),
@@ -169,7 +166,7 @@ class Node:
 
             if self.view_num == "1":
                 print("Prepare Phase Ended:", time.time())
-            print(response.text)
+
             response_content = self.create_commit_msg(json.loads(response.text))
             if self.view_num == "1":
                 print("Commit Phase ended at: ", time.time())
