@@ -32,7 +32,7 @@ class Node:
         app = web.Application()
 
         app.router.add_route('POST', '/prep/', self.prepare)
-        app.router.add_route('POST', '/commit_ack/', self.commit_ack)
+        app.router.add_route('POST ', '/commit_ack/', self.commit_ack)
 
 
 
@@ -155,7 +155,8 @@ class Node:
 
             if self.view_num == "1":
                 print("Prepare Phase Ended:", time.time())
-
+            print("response.text) =", response)
+            print("response.text) =", response.text)
             response_content = self.create_commit_msg(json.loads(response.text))
             if self.view_num == "1":
                 print("Commit Phase ended at: ", time.time())

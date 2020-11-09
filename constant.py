@@ -86,6 +86,7 @@ def get_string(char_length):
         data_list.append(data_string)
     data_string = "".join(data_list)
     STRING = data_string
+    print("data_string =", data_string)
     return data_string
 
 

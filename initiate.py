@@ -25,6 +25,7 @@ async def initiate_pbft(url):
                 const.commit: "0",
                 const.DATA: const.get_string(char_size)
              }
+    print("data_string =", params)
     print("total time started", time.time())
     response = requests.post(url=url, params=params, headers=params)
     print(response.__attrs__)
