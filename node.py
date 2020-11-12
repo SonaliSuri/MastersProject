@@ -32,7 +32,7 @@ class Node:
         app = web.Application()
 
         app.router.add_route('POST', '/prep/', self.prepare)
-        app.router.add_route('POST ', '/commit_ack/', self.commit_ack)
+        app.router.add_route('POST', '/commit_ack/', self.commit_ack)
 
 
 
@@ -122,7 +122,7 @@ class Node:
         if self.view_num == "1":
             print("Prepare Phase started:", start_time)
             msg = [const.open_brac, request.headers[const.VIEW], request.headers[const.MSG_SEQ],
-                   request.headers[const.TYPE], const.close_brac]
+                   request.headers[const.TYPE], request.headers[const.DATA], const.close_brac]
             # print("Commit", request.headers[const.commit])
             params = {const.VIEW: self.view_num,
                       const.MSG_SEQ: str(int(request.headers[const.MSG_SEQ]) + 1),
@@ -131,10 +131,12 @@ class Node:
                       const.prep: str(int(request.headers[const.prep]) + 1),
                       const.commit: str(int(request.headers[const.commit]))
                       }
+
         else:
 
             msg = [const.open_brac, request.headers[const.VIEW], request.headers[const.MSG_SEQ],
                    request.headers[const.TYPE], request.headers[const.MSG], const.close_brac]
+
             params = {const.VIEW: self.view_num,
                   const.MSG_SEQ: str(int(request.headers[const.MSG_SEQ]) + 1),
                   const.TYPE: const.PREPARE,
@@ -195,7 +197,7 @@ class Drawings(Node):
         here = Path(__file__).resolve().parent
         aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader(str(here)))
 
-        app.router.add_route('GET', '/initiate/', self.initiating)
+        app.router.add_route('POST', '/initiate/', self.initiating)
         #app.router.add_route('POST', '/change_text/', self.change_text)
 
         loop = asyncio.get_event_loop()

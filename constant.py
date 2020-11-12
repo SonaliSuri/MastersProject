@@ -48,7 +48,7 @@ port_diagram = '8273'
 # ====================
 #  node host and port
 # ====================
-host_node = 'localhost'
+host_node = '0.0.0.0'
 port_node = '8254'
 
 
