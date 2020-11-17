@@ -13,9 +13,9 @@ import aiohttp_jinja2
 import jinja2
 from aiohttp import ClientResponse
 import constant as const
-import json
 from pathlib import Path
 import time
+import json
 
 
 class Node:
@@ -53,14 +53,14 @@ class Node:
         loop.close()
         print(const.host_node, const.port_node)
 
-    def next_commit_ack(self, params):
+    def next_commit_ack(self, params, json_data):
         print("Reply phase started:", time.time())
         url_client = "http://" + const.host + ':' + const.port + '/get_reply/'
-        requests.post(url=url_client, headers=params)
+        requests.post(url=url_client, headers=params, json=json_data)
         print("Reply phase ended:", time.time())
         if self.to_host is not None and self.to_port is not None:
             url = "http://" + self.to_host + ':' + self.to_port + '/commit_ack/'
-            requests.post(url=url, headers=params)
+            requests.post(url=url, headers=params, json=json_data)
         else:
 
             new_msg = [const.open_brac, params[const.VIEW], params[const.MSG_SEQ],
@@ -74,6 +74,7 @@ class Node:
             return
 
     def commit_ack(self, request):
+        json_data = {}
         if self.view_num == "1":
             print("Started commit_ack", time.time())
             msg = [const.open_brac, request[const.VIEW], request[const.MSG_SEQ],
@@ -98,7 +99,7 @@ class Node:
         print("Node "+self.view_num+": ", params)
         #url_draw = "http://" + const.host_diagram + ':' + const.port_diagram + '/change_text/'
         #requests.post(url=url_draw, headers=params)
-        self.next_commit_ack(params)
+        self.next_commit_ack(params, json_data)
         return web.Response(text="My message")
 
     def create_commit_msg(self, request):
@@ -122,7 +123,8 @@ class Node:
         if self.view_num == "1":
             print("Prepare Phase started:", start_time)
             msg = [const.open_brac, request.headers[const.VIEW], request.headers[const.MSG_SEQ],
-                   request.headers[const.TYPE], request.headers[const.DATA], const.close_brac]
+                   request.headers[const.TYPE], const.close_brac]
+
             # print("Commit", request.headers[const.commit])
             params = {const.VIEW: self.view_num,
                       const.MSG_SEQ: str(int(request.headers[const.MSG_SEQ]) + 1),
@@ -131,6 +133,7 @@ class Node:
                       const.prep: str(int(request.headers[const.prep]) + 1),
                       const.commit: str(int(request.headers[const.commit]))
                       }
+            json_data = await request.json()
 
         else:
 
@@ -145,15 +148,21 @@ class Node:
                 const.commit: str(int(request.headers[const.commit]))
                   }
 
+            json_data = await request.json()
+
+        print(json_data)
+
         # url_diagram = "http://" + const.host_diagram + ':' + const.port_diagram + '/change_text/'
         # result = requests.post(url=url_diagram, headers=params)
 
         # const.prep = const.prep + 1
         # print("Prep msg", params[const.prep])
+
         if self.to_port and self.to_host and int(params[const.prep]) < 2 * const.faulty:
             # print("Node: "+self.view_num+": ", params)
             url = "http://" + self.to_host + ':' + self.to_port + '/prep/'
-            response = requests.post(url=url, headers=params)
+            print("json =", json_data)
+            response = requests.post(url=url, headers=params, json=json_data)
 
             if self.view_num == "1":
                 print("Prepare Phase Ended:", time.time())
