@@ -151,7 +151,7 @@ class Node:
 
             json_data = await request.json()
 
-        print(json_data)
+        # print(json_data)
 
         # url_diagram = "http://" + const.host_diagram + ':' + const.port_diagram + '/change_text/'
         # result = requests.post(url=url_diagram, headers=params)

@@ -28,7 +28,7 @@ async def initiate_pbft(url):
 
     jsons = {const.DATA: const.get_string(char_size)}
 
-    print("data_string =", params)
+    #print("data_string =", params)
     print("total time started", time.time())
     response = requests.post(url=url, params=params, headers=params, data=json.dumps(jsons))
     print(response.__attrs__)
