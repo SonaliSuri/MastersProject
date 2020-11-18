@@ -162,7 +162,7 @@ class Node:
         if self.to_port and self.to_host and int(params[const.prep]) < 2 * const.faulty:
             # print("Node: "+self.view_num+": ", params)
             url = "http://" + self.to_host + ':' + self.to_port + '/prep/'
-            print("json =", json_data)
+
             response = requests.post(url=url, headers=params, json=json_data)
 
             if self.view_num == "1":
