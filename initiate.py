@@ -36,7 +36,7 @@ async def initiate_pbft(url):
 
 char_size = input()
 
-app = web.Application(client_max_size=40000 * 2 ** 10)
+app = web.Application(client_max_size=41300 * 2 ** 10)
 loop = asyncio.get_event_loop()
 handler = app.make_handler()
 

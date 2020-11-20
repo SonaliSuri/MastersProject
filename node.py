@@ -29,7 +29,7 @@ class Node:
         self.view_num = viewnum
         const.host_node = host
         const.port_node = port
-        app = web.Application(client_max_size=40000 * 2 ** 10)
+        app = web.Application(client_max_size=41300 * 2 ** 10)
 
         app.router.add_route('POST', '/prep/', self.prepare)
         app.router.add_route('POST', '/commit_ack/', self.commit_ack)
@@ -203,7 +203,7 @@ class Drawings(Node):
         self.arr=[]
         const.host_node = host
         const.port_node = port
-        app = web.Application(client_max_size=40000 * 2 ** 10)
+        app = web.Application(client_max_size=41300 * 2 ** 10)
         here = Path(__file__).resolve().parent
         aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader(str(here)))
 
