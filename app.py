@@ -23,9 +23,7 @@ us_east_1 = "ec2-23-22-216-36.compute-1.amazonaws.com"
 us_east_2 = "ec2-18-220-116-243.us-east-2.compute.amazonaws.com"
 us_west_1 = "ec2-54-176-153-55.us-west-1.compute.amazonaws.com"
 
-#us_east_1 = "127.0.0.1"
-#us_east_2 = "127.0.0.1"
-#us_west_1 = "127.0.0.1"
+
 
 propose_urls = list([])
 propose_urls.append("http://"+us_east_1+":1050/prepare/")
