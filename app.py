@@ -19,7 +19,7 @@ current_ts, current_val = None, None
 prev_ts, prev_val = None, None
 port = "1050"
 
-us_east_1 = "ec2-34-233-133-242.compute-1.amazonaws.com"
+us_east_1 = "ec2-23-22-216-36.compute-1.amazonaws.com"
 us_east_2 = "ec2-18-220-116-243.us-east-2.compute.amazonaws.com"
 us_west_1 = "ec2-54-176-153-55.us-west-1.compute.amazonaws.com"
 
