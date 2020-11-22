@@ -4,17 +4,17 @@ import matplotlib.pyplot as plt
 
 objects = ('10000','100000','1048000','10230000','40000000','41300000')
 y_pos = np.arange(len(objects))
-performance = [6.899,68.70,722.80, 7066.89,28870.65, 29800.24]
+performance = [7.23,68.18,751.34, 7413.89,29203.39, 29894.81]
 plt.bar(y_pos, performance, align='center', alpha=0.5)
 plt.xticks(y_pos, objects)
 plt.ylabel('Time')
-plt.title('us-east-1')
+plt.title('us-west-2')
 plt.show()
 
 import matplotlib.pyplot as plt
 
 plt.plot(objects,performance)
-plt.title('Throughput')
+plt.title('Throughput - us-west-2')
 plt.xlabel('Bytes/s')
 plt.ylabel('PPS')
 plt.show()

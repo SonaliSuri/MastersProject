@@ -19,20 +19,24 @@ current_ts, current_val = None, None
 prev_ts, prev_val = None, None
 port = "1050"
 
-us_east_1 = "ec2-54-226-195-115.compute-1.amazonaws.com"
-us_east_2 = "ec2-3-138-202-205.us-east-2.compute.amazonaws.com"
-us_west_1 = "ec2-54-241-144-146.us-west-1.compute.amazonaws.com"
+us_east_1 = "ec2-34-233-133-242.compute-1.amazonaws.com"
+us_east_2 = "ec2-18-220-116-243.us-east-2.compute.amazonaws.com"
+us_west_1 = "ec2-54-176-153-55.us-west-1.compute.amazonaws.com"
+
+#us_east_1 = "127.0.0.1"
+#us_east_2 = "127.0.0.1"
+#us_west_1 = "127.0.0.1"
 
 propose_urls = list([])
 propose_urls.append("http://"+us_east_1+":1050/prepare/")
-propose_urls.append("http://"+us_east_2+":1050/prepare/")
-propose_urls.append("http://"+us_west_1+":1050/prepare/")
+propose_urls.append("http://"+us_east_2+":1051/prepare/")
+propose_urls.append("http://"+us_west_1+":1052/prepare/")
 
 
 accept_urls = list([])
 accept_urls.append("http://"+us_east_1+":1050/accept/")
-accept_urls.append("http://"+us_east_2+":1050/accept/")
-accept_urls.append("http://"+us_west_1+":1050/accept/")
+accept_urls.append("http://"+us_east_2+":1051/accept/")
+accept_urls.append("http://"+us_west_1+":1052/accept/")
 
 
 app = Flask(__name__)
@@ -50,6 +54,8 @@ def send_prep(yr, mon, day, hr, minute, sec, micro_sec, value, num):
     global global_data
     params = {const.DATA: global_data}
 
+    global json_data
+    #print(url)
     response = requests.post(url=url, params=params)
 
     return response
@@ -67,6 +73,7 @@ def send_accept(yr, mon, day, hr, minute, sec, micro_sec, value, num):
     global global_data
     params = {const.DATA: global_data}
 
+    global json_data
     response = requests.post(url=url, params=params)
     print(response)
     return response
@@ -102,6 +109,7 @@ def propose():
             global promise_number
             promise_number += 1
 
+
     print("prepare =", replies)
     print("prepare promise_number =", promise_number)
 
@@ -117,7 +125,7 @@ def propose():
     return 'Hello World !!!'
 
 
-@app.route('/prepare/<yr>/<mon>/<day>/<hr>/<minute>/<sec>/<micro_sec>/<val>')
+@app.route('/prepare/<yr>/<mon>/<day>/<hr>/<minute>/<sec>/<micro_sec>/<val>', methods=['POST'])
 def prepare(yr, mon, day, hr, minute, sec, micro_sec, val):
     dash = "-"
     colon = ":"
@@ -147,7 +155,7 @@ def prepare(yr, mon, day, hr, minute, sec, micro_sec, val):
     return "False"
 
 
-@app.route('/accept/<yr>/<mon>/<day>/<hr>/<minute>/<sec>/<micro_sec>/<val>')
+@app.route('/accept/<yr>/<mon>/<day>/<hr>/<minute>/<sec>/<micro_sec>/<val>', methods=['POST'])
 def accept(yr, mon, day, hr, minute, sec, micro_sec, val):
     global current_ts
     global current_val
@@ -172,7 +180,11 @@ def get_tasks():
     return jsonify({'tasks': 'tasks'})
 
 
+# char_size = input()
+# json_data = {const.DATA: const.get_string(char_size)}
 char_size = input()
 global_data = const.get_string(char_size)
 port = "1050"
+app.config['MAX_CONTENT_LENGTH'] = 41300 * 2 ** 10
 app.run(host='0.0.0.0', port=port)
+

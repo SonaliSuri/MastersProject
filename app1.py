@@ -6,6 +6,7 @@ from flask import Flask
 import requests
 import datetime
 import random
+import time
 
 urls = []
 total_number = 3
@@ -18,14 +19,14 @@ prev_ts, prev_val = None, None
 port = "1050"
 
 propose_urls = list([])
-propose_urls.append("http://0.0.0.0:1050/prepare/")
-propose_urls.append("http://0.0.0.0:1051/prepare/")
-propose_urls.append("http://0.0.0.0:1052/prepare/")
+propose_urls.append("http://127.0.0.1:1050/prepare/")
+propose_urls.append("http://127.0.0.1:1051/prepare/")
+propose_urls.append("http://127.0.0.1:1052/prepare/")
 
 accept_urls = list([])
-accept_urls.append("http://0.0.0.0:1050/accept/")
-accept_urls.append("http://0.0.0.0:1051/accept/")
-accept_urls.append("http://0.0.0.0:1052/accept/")
+accept_urls.append("http://127.0.0.1:1050/accept/")
+accept_urls.append("http://127.0.0.1:1051/accept/")
+accept_urls.append("http://127.0.0.1:1052/accept/")
 
 app = Flask(__name__)
 
@@ -84,6 +85,7 @@ def propose():
     )
 
     replies = []
+    print("Propose Started =", time.time())
     with ThreadPoolExecutor(max_workers=3) as executor:
         for reply in executor.map(lambda p: send_prep(*p), args):
             replies.append(reply)
@@ -110,7 +112,7 @@ def propose():
     return 'Hello World !!!'
 
 
-@app.route('/prepare/<yr>/<mon>/<day>/<hr>/<minute>/<sec>/<micro_sec>/<val>')
+@app.route('/prepare/<yr>/<mon>/<day>/<hr>/<minute>/<sec>/<micro_sec>/<val>', methods=['POST'])
 def prepare(yr, mon, day, hr, minute, sec, micro_sec, val):
     dash = "-"
     colon = ":"
@@ -140,7 +142,7 @@ def prepare(yr, mon, day, hr, minute, sec, micro_sec, val):
     return "False"
 
 
-@app.route('/accept/<yr>/<mon>/<day>/<hr>/<minute>/<sec>/<micro_sec>/<val>')
+@app.route('/accept/<yr>/<mon>/<day>/<hr>/<minute>/<sec>/<micro_sec>/<val>', methods=['POST'])
 def accept(yr, mon, day, hr, minute, sec, micro_sec, val):
     global current_ts
     global current_val
@@ -167,5 +169,6 @@ def get_tasks():
 
 char_size = input()
 global_data = const.get_string(char_size)
-port = "1050"
+port = "1051"
+app.config['MAX_CONTENT_LENGTH'] = 41300 * 2 ** 10
 app.run(host='0.0.0.0', port=port)

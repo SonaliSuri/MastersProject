@@ -38,6 +38,7 @@ from flask import Flask
 import requests
 import datetime
 import random
+import time
 
 urls = []
 total_number = 3
@@ -141,7 +142,7 @@ def propose():
     return 'Hello World !!!'
 
 
-@app.route('/prepare/<yr>/<mon>/<day>/<hr>/<minute>/<sec>/<micro_sec>/<val>')
+@app.route('/prepare/<yr>/<mon>/<day>/<hr>/<minute>/<sec>/<micro_sec>/<val>', methods=['POST'])
 def prepare(yr, mon, day, hr, minute, sec, micro_sec, val):
     dash = "-"
     colon = ":"
@@ -171,7 +172,7 @@ def prepare(yr, mon, day, hr, minute, sec, micro_sec, val):
     return "False"
 
 
-@app.route('/accept/<yr>/<mon>/<day>/<hr>/<minute>/<sec>/<micro_sec>/<val>')
+@app.route('/accept/<yr>/<mon>/<day>/<hr>/<minute>/<sec>/<micro_sec>/<val>', methods=['POST'])
 def accept(yr, mon, day, hr, minute, sec, micro_sec, val):
     global current_ts
     global current_val
@@ -198,5 +199,6 @@ def get_tasks():
 
 char_size = input()
 global_data = const.get_string(char_size)
-port = "1050"
+port = "1052"
+app.config['MAX_CONTENT_LENGTH'] = 41300 * 2 ** 10
 app.run(host='0.0.0.0', port=port)
