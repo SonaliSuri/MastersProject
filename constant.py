@@ -12,31 +12,31 @@ REPLY = "Reply"
 # ====================
 #  node host and port
 # ====================
-host = 'ec2-52-14-203-178.us-east-2.compute.amazonaws.com'
+host = 'ec2-54-177-113-110.us-west-1.compute.amazonaws.com'
 port = '8692'
 
 # ====================
 #  node host and port
 # ====================
-host_1 = 'ec2-18-216-187-228.us-east-2.compute.amazonaws.com'
+host_1 = 'ec2-54-176-17-2.us-west-1.compute.amazonaws.com'
 port_1 = '8698'
 
 # ====================
 #  node host and port
 # ====================
-host_2 = 'ec2-3-19-79-195.us-east-2.compute.amazonaws.com'
+host_2 = 'ec2-184-72-13-212.us-west-1.compute.amazonaws.com'
 port_2 = '8699'
 
 # ====================
 #  node host and port
 # ====================
-host_3 = 'ec2-18-223-156-61.us-east-2.compute.amazonaws.com'
+host_3 = 'ec2-18-144-8-113.us-west-1.compute.amazonaws.com'
 port_3 = '8696'
 
 # ====================
 #  node host and port
 # ====================
-host_4 = 'ec2-3-132-215-60.us-east-2.compute.amazonaws.com'
+host_4 = 'ec2-54-183-89-108.us-west-1.compute.amazonaws.com'
 port_4 = '8695'
 
 # ====================
@@ -48,7 +48,7 @@ port_diagram = '8293'
 # ====================
 #  node host and port
 # ====================
-host_node = 'ec2-52-14-203-178.us-east-2.compute.amazonaws.com'
+host_node = 'ec2-54-177-113-110.us-west-1.compute.amazonaws.com'
 port_node = '8694'
 
 
