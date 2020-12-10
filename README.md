@@ -13,3 +13,7 @@ As per the below order run the below commands (each command per new terminal):
 6. python3 initiate.py
 
 
+# Paxos
+Run app.py, app1.py and app2.py on EC2 of the leader node for each cluster.
+
+
